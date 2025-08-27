@@ -1,0 +1,344 @@
+
+function getLocalizeGlobalNamespace() {
+  var globalContainer;
+
+  if (typeof process !== 'undefined' && typeof process.release !== 'undefined' && process.release.name === 'node') {
+    globalContainer = global;
+  } else {
+    globalContainer = self;
+  }
+
+  globalContainer['LocalizeNamespace-omnibox-microview'] = globalContainer['LocalizeNamespace-omnibox-microview'] || {};
+  return globalContainer['LocalizeNamespace-omnibox-microview'];
+}
+!function(){function r(e){if(!(this instanceof r))return new r(e);t(e,"locale"),u(e,"locale"),this._locale=e}var a,n,i,l,t,o,u;getLocalizeGlobalNamespace().TabGlobalize=(a=function(e,r){return e=e.replace(/{[0-9a-zA-Z-_. ]+}/g,function(e){return e=e.replace(/^{([^}]*)}$/,"$1"),"string"==typeof(e=r[e])?e:"number"==typeof e?""+e:JSON.stringify(e)})},n=function(e,r,t){return r=e+(r?": "+a(r,t):""),(r=new Error(r)).code=e,function(){var t=arguments[0];[].slice.call(arguments,1).forEach(function(e){for(var r in e)t[r]=e[r]})}(r,t),r},i=function(e,r,t){e.length&&e[e.length-1].type===r?e[e.length-1].value+=t:e.push({type:r,value:t})},l=function(e,r,t,a){if(!t)throw n(e,r,a)},t=function(e,r){l("E_MISSING_PARAMETER","Missing required parameter `{name}`.",void 0!==e,{name:r})},o=function(e,r,t,a){l("E_INVALID_PAR_TYPE","Invalid `{name}` parameter ({value}). {expected} expected.",t,{expected:a,name:r,value:e})},u=function(e,r){o(e,r,void 0===e||"string"==typeof e,"a string")},r.locale=function(e){return u(e,"locale"),arguments.length&&(this._locale=e),this._locale},r._createError=n,r._formatMessage=a,r._formatMessageToParts=function(a,n){var l=0,o=[];return a.replace(/{[0-9a-zA-Z-_. ]+}/g,function(e,r){var t=e.slice(1,-1);i(o,"literal",a.slice(l,r)),i(o,"variable",n[t]),o[o.length-1].name=t,l+=r+e.length}),o.filter(function(e){return""!==e.value})},r._partsJoin=function(e){return e.map(function(e){return e.value}).join("")},r._partsPush=i,r._regexpEscape=function(e){return e.replace(/([.*+?^=!:${}()|\[\]\/\\])/g,"\\$1")},r._runtimeKey=function(e,r,t,a){return a=a||(t=t,JSON.stringify(t,function(e,r){return r&&r.runtimeKey?r.runtimeKey:r})),a=e+r+a,0<(a=[].reduce.call(a,function(e,r){return 0|(e=(e<<5)-e+r.charCodeAt(0))},0))?"a"+a:"b"+Math.abs(a)},r._stringPad=function(e,r,t){for(var a=(e="string"!=typeof e?String(e):e).length;a<r;a+=1)e=t?e+"0":"0"+e;return e},r._validateParameterPresence=t,r._validateParameterTypeString=u,r._validateParameterType=o,r)}(),function(e){var r,t,a,n;r=e.TabGlobalize,t=r._runtimeKey,a=r._validateParameterType,n=function(e,r){a(e,r,void 0===e||null!==(r=e)&&""+r=="[object Object]"||Array.isArray(e),"Array or Plain Object")},r._messageFormatterFn=function(r){return function(e){return"number"!=typeof e&&"string"!=typeof e||(e=[].slice.call(arguments,0)),n(e,"variables"),r(e)}},r._messageFormat={number:function(e,r){if(isNaN(e))throw new Error("'"+e+"' isn't a number.");return e-(r||0)},plural:function(e,r,t,a,n){if({}.hasOwnProperty.call(a,e))return a[e]();r&&(e-=r);n=t(e,n);return n in a?a[n]():a.other()},select:function(e,r){return{}.hasOwnProperty.call(r,e)?r[e]():r.other()}},r._validateParameterTypeMessageVariables=n,r.messageFormatter=r.prototype.messageFormatter=function(){return r[t("messageFormatter",this._locale,[].slice.call(arguments,0))]},r.formatMessage=r.prototype.formatMessage=function(e){return this.messageFormatter(e).apply({},[].slice.call(arguments,1))}}(getLocalizeGlobalNamespace()),function(e){var r,t,a,n,l;r=e.TabGlobalize,t=r._runtimeKey,a=r._validateParameterPresence,n=r._validateParameterType,l=function(e,r){n(e,r,void 0===e||"number"==typeof e,"Number")},r._pluralGeneratorFn=function(r){return function(e){return a(e,"value"),l(e,"value"),r(e)}},r._validateParameterTypeNumber=l,r.plural=r.prototype.plural=function(e,r){return a(e,"value"),l(e,"value"),this.pluralGenerator(r)(e)},r.pluralGenerator=r.prototype.pluralGenerator=function(e){return r[t("pluralGenerator",this._locale,[e=e||{}])]}}(getLocalizeGlobalNamespace());
+(function( root, factory ) {
+  root.Localize = root.Localize || {};
+  root.Localize.currentMessageLocale = 'en_US';
+  root.Localize.msg = new root.TabGlobalize('en');
+  root.Localize.message = root.Localize.message || {};
+  root.Localize.message.currentLocale = 'en_US';
+
+  factory( root.TabGlobalize, root.Localize );
+  if (root.Localize.initFormattersAndParsers) {
+    root.Localize.initFormattersAndParsers();
+  }
+}(getLocalizeGlobalNamespace(), function( Globalize ) {
+// TODO: remove workaround below
+var validateParameterTypeNumber = Globalize._validateParameterTypeNumber;
+var validateParameterPresence = Globalize._validateParameterPresence;
+var validateParameterTypeMessageVariables = Globalize._validateParameterTypeMessageVariables;
+var messageFormat = Globalize._messageFormat;
+// ----
+var pluralGeneratorFn = Globalize._pluralGeneratorFn;
+var messageFormatterFn = Globalize._messageFormatterFn;
+
+Globalize.a1662346136 = pluralGeneratorFn(function(n
+) {
+  var s = String(n).split('.'), v0 = !s[1];
+  return (n == 1 && v0) ? 'one' : 'other';
+});
+Globalize.b852986918 = messageFormatterFn((function(  ) {
+  return function(d) { return "Collections"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b324916712 = messageFormatterFn((function(  ) {
+  return function(d) { return "Content types"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a150471517 = messageFormatterFn((function(  ) {
+  return function(d) { return "Databases and Files"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b399310216 = messageFormatterFn((function(  ) {
+  return function(d) { return "Data Roles"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1244463917 = messageFormatterFn((function(  ) {
+  return function(d) { return "Data Sources"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b223222070 = messageFormatterFn((function(  ) {
+  return function(d) { return "Flows"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1231001722 = messageFormatterFn((function(  ) {
+  return function(d) { return "Hidden User"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a1586755165 = messageFormatterFn((function(  ) {
+  return function(d) { return "Ask Data Lenses"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a1142034568 = messageFormatterFn((function(  ) {
+  return function(d) { return "Metrics"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a273241859 = messageFormatterFn((function(  ) {
+  return function(d) { return "Clear"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a827582142 = messageFormatterFn((function(  ) {
+  return function(d) { return "Clear History"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1732264608 = messageFormatterFn((function(  ) {
+  return function(d) { return "Your search history is private, and is only used to improve search suggestions."; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b203645199 = messageFormatterFn((function(  ) {
+  return function(d) { return "Clear all search history?"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b2024936531 = messageFormatterFn((function(  ) {
+  return function(d) { return "Recents"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a1676771939 = messageFormatterFn((function( plural, pluralFuncs ) {
+  return function(d) { return "Connected to " + d.NUMBER_LOC + " " + plural(d.NUMBER, 0, pluralFuncs.en, { one: function() { return "workbook";}, other: function() { return "workbooks";} }); }
+})(messageFormat.plural, {"en": Globalize("en").pluralGenerator()}), Globalize("en").pluralGenerator({}));
+Globalize.a1879712429 = messageFormatterFn((function(  ) {
+  return function(d) { return "Searching."; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1768549167 = messageFormatterFn((function(  ) {
+  return function(d) { return "Search for views, metrics, workbooks, and more"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1196674041 = messageFormatterFn((function(  ) {
+  return function(d) { return "Search for views, workbooks, and more"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a51946239 = messageFormatterFn((function( plural, pluralFuncs ) {
+  return function(d) { return d.NUMBER_LOC + " " + plural(d.NUMBER, 0, pluralFuncs.en, { one: function() { return "item";}, other: function() { return "items";} }); }
+})(messageFormat.plural, {"en": Globalize("en").pluralGenerator()}), Globalize("en").pluralGenerator({}));
+Globalize.b1458676661 = messageFormatterFn((function(  ) {
+  return function(d) { return "Press " + d.enter + " to see all"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a2020721334 = messageFormatterFn((function(  ) {
+  return function(d) { return "Enter"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a2122073170 = messageFormatterFn((function( plural, pluralFuncs ) {
+  return function(d) { return d.NUMBER_LOC + " recent " + plural(d.NUMBER, 0, pluralFuncs.en, { one: function() { return "view";}, other: function() { return "views";} }); }
+})(messageFormat.plural, {"en": Globalize("en").pluralGenerator()}), Globalize("en").pluralGenerator({}));
+Globalize.b932424467 = messageFormatterFn((function(  ) {
+  return function(d) { return "Search results"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a564781492 = messageFormatterFn((function(  ) {
+  return function(d) { return "To scroll through your search results, press the arrow keys"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1463955377 = messageFormatterFn((function( plural, pluralFuncs ) {
+  return function(d) { return "Modified " + d.NUMBER_LOC + " " + plural(d.NUMBER, 0, pluralFuncs.en, { one: function() { return "day";}, other: function() { return "days";} }) + " ago"; }
+})(messageFormat.plural, {"en": Globalize("en").pluralGenerator()}), Globalize("en").pluralGenerator({}));
+Globalize.b626169197 = messageFormatterFn((function( plural, pluralFuncs ) {
+  return function(d) { return "Modified " + d.NUMBER_LOC + " " + plural(d.NUMBER, 0, pluralFuncs.en, { one: function() { return "hour";}, other: function() { return "hours";} }) + " ago"; }
+})(messageFormat.plural, {"en": Globalize("en").pluralGenerator()}), Globalize("en").pluralGenerator({}));
+Globalize.b2026412221 = messageFormatterFn((function( plural, pluralFuncs ) {
+  return function(d) { return "Modified " + d.NUMBER_LOC + " " + plural(d.NUMBER, 0, pluralFuncs.en, { one: function() { return "minute";}, other: function() { return "minutes";} }) + " ago"; }
+})(messageFormat.plural, {"en": Globalize("en").pluralGenerator()}), Globalize("en").pluralGenerator({}));
+Globalize.a850293683 = messageFormatterFn((function( plural, pluralFuncs ) {
+  return function(d) { return "Modified " + d.NUMBER_LOC + " " + plural(d.NUMBER, 0, pluralFuncs.en, { one: function() { return "month";}, other: function() { return "months";} }) + " ago"; }
+})(messageFormat.plural, {"en": Globalize("en").pluralGenerator()}), Globalize("en").pluralGenerator({}));
+Globalize.b992035421 = messageFormatterFn((function( plural, pluralFuncs ) {
+  return function(d) { return "Modified " + d.NUMBER_LOC + " " + plural(d.NUMBER, 0, pluralFuncs.en, { one: function() { return "second";}, other: function() { return "seconds";} }) + " ago"; }
+})(messageFormat.plural, {"en": Globalize("en").pluralGenerator()}), Globalize("en").pluralGenerator({}));
+Globalize.a380097799 = messageFormatterFn((function(  ) {
+  return function(d) { return "See all results for “" + d.SEARCH_TERM + "”"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b2009835545 = messageFormatterFn((function(  ) {
+  return function(d) { return "No results."; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a11034216 = messageFormatterFn((function( plural, pluralFuncs ) {
+  return function(d) { return "Showing " + d.TOTAL_COUNT_LOC + " " + plural(d.TOTAL_COUNT, 0, pluralFuncs.en, { one: function() { return "result";}, other: function() { return "results";} }) + "."; }
+})(messageFormat.plural, {"en": Globalize("en").pluralGenerator()}), Globalize("en").pluralGenerator({}));
+Globalize.b512163592 = messageFormatterFn((function(  ) {
+  return function(d) { return "Owner"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b316901461 = messageFormatterFn((function(  ) {
+  return function(d) { return "Projects"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1589939848 = messageFormatterFn((function(  ) {
+  return function(d) { return "Virtual Connections"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b255502383 = messageFormatterFn((function(  ) {
+  return function(d) { return "Simulations"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1255693226 = messageFormatterFn((function(  ) {
+  return function(d) { return "Tables"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1798653261 = messageFormatterFn((function(  ) {
+  return function(d) { return "Tables and Objects"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b667648794 = messageFormatterFn((function(  ) {
+  return function(d) { return "Data Model Objects"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a923205184 = messageFormatterFn((function(  ) {
+  return function(d) { return "Data Lake Objects"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a55994282 = messageFormatterFn((function(  ) {
+  return function(d) { return "Calculated Insights"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a996812275 = messageFormatterFn((function(  ) {
+  return function(d) { return "Views"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b2046554626 = messageFormatterFn((function(  ) {
+  return function(d) { return "Workbooks"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a276711850 = messageFormatterFn((function(  ) {
+  return function(d) { return "Draft"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a687560591 = messageFormatterFn((function(  ) {
+  return function(d) { return "You made changes to this workbook that have not been published. Your draft is visible only to you and system administrators."; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1417128579 = messageFormatterFn((function(  ) {
+  return function(d) { return "Never Published"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a829799334 = messageFormatterFn((function(  ) {
+  return function(d) { return "This workbook has never been published and is only visible to you and system administrators."; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1491193415 = messageFormatterFn((function(  ) {
+  return function(d) { return "Drafts"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a368072565 = messageFormatterFn((function(  ) {
+  return function(d) { return "Content suggestions"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a1831797354 = messageFormatterFn((function(  ) {
+  return function(d) { return "Unable to load microview from " + d.MICROVIEW_NAME + "."; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b275519392 = messageFormatterFn((function(  ) {
+  return function(d) { return "Something went wrong, and we couldn’t complete your search. Try again later."; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b842855487 = messageFormatterFn((function(  ) {
+  return function(d) { return "Press " + d.enter + " to see all"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a965676245 = messageFormatterFn((function(  ) {
+  return function(d) { return "Bold"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1732024758 = messageFormatterFn((function(  ) {
+  return function(d) { return "Cancel"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a676088830 = messageFormatterFn((function(  ) {
+  return function(d) { return "Close"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1586131674 = messageFormatterFn((function(  ) {
+  return function(d) { return "Close dialog"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b637250120 = messageFormatterFn((function(  ) {
+  return function(d) { return "Custom color"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a1041330970 = messageFormatterFn((function(  ) {
+  return function(d) { return "Edit"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1734418304 = messageFormatterFn((function(  ) {
+  return function(d) { return "Editor Mode"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b426049886 = messageFormatterFn((function(  ) {
+  return function(d) { return "Enter a valid date."; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b295924671 = messageFormatterFn((function(  ) {
+  return function(d) { return "Error: "; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1750746339 = messageFormatterFn((function(  ) {
+  return function(d) { return "Formatting Guide"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a724029266 = messageFormatterFn((function(  ) {
+  return function(d) { return "Bold"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a987240285 = messageFormatterFn((function(  ) {
+  return function(d) { return "To get this"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a697015723 = messageFormatterFn((function(  ) {
+  return function(d) { return "Type this"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1474603068 = messageFormatterFn((function(  ) {
+  return function(d) { return "Image"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b290771668 = messageFormatterFn((function(  ) {
+  return function(d) { return "Italics"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a1004845959 = messageFormatterFn((function(  ) {
+  return function(d) { return "Link"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a37934581 = messageFormatterFn((function(  ) {
+  return function(d) { return "Underline"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b2121715777 = messageFormatterFn((function(  ) {
+  return function(d) { return "Heading 1"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b2121714816 = messageFormatterFn((function(  ) {
+  return function(d) { return "Heading 2"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b2121713855 = messageFormatterFn((function(  ) {
+  return function(d) { return "Heading 3"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a1541400977 = messageFormatterFn((function(  ) {
+  return function(d) { return "Info: "; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a249191625 = messageFormatterFn((function(  ) {
+  return function(d) { return "Italics"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a963803833 = messageFormatterFn((function(  ) {
+  return function(d) { return "Ctrl+"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a776341578 = messageFormatterFn((function(  ) {
+  return function(d) { return "Shift+"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a1246492938 = messageFormatterFn((function(  ) {
+  return function(d) { return "Link"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a942650263 = messageFormatterFn((function(  ) {
+  return function(d) { return "link text"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a31704859 = messageFormatterFn((function(  ) {
+  return function(d) { return "url"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a909784723 = messageFormatterFn((function(  ) {
+  return function(d) { return "Next Month"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a505500216 = messageFormatterFn((function(  ) {
+  return function(d) { return "No matches."; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a1458356336 = messageFormatterFn((function(  ) {
+  return function(d) { return "(optional)"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1424406689 = messageFormatterFn((function(  ) {
+  return function(d) { return d.COUNT + " options selected"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b84994127 = messageFormatterFn((function(  ) {
+  return function(d) { return "Ordered List"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1017875340 = messageFormatterFn((function(  ) {
+  return function(d) { return "Paragraph"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a832661262 = messageFormatterFn((function(  ) {
+  return function(d) { return "Preview"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b248595313 = messageFormatterFn((function(  ) {
+  return function(d) { return "Previous Month"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b2121673260 = messageFormatterFn((function(  ) {
+  return function(d) { return "Remove"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a234654959 = messageFormatterFn((function(  ) {
+  return function(d) { return "(required)"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1188078362 = messageFormatterFn((function(  ) {
+  return function(d) { return "Success: "; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a1490724826 = messageFormatterFn((function(  ) {
+  return function(d) { return "Waiting for content"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a141034459 = messageFormatterFn((function(  ) {
+  return function(d) { return "Editing is disabled in preview mode"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a1945656834 = messageFormatterFn((function(  ) {
+  return function(d) { return "Textile markup guide"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1182798713 = messageFormatterFn((function(  ) {
+  return function(d) { return "Textile markup preview"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a584030657 = messageFormatterFn((function(  ) {
+  return function(d) { return "Information"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b748383662 = messageFormatterFn((function(  ) {
+  return function(d) { return "Underline"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a60007160 = messageFormatterFn((function(  ) {
+  return function(d) { return "Unordered List"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.b1041600694 = messageFormatterFn((function(  ) {
+  return function(d) { return "Wait indicator"; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a1893256685 = messageFormatterFn((function(  ) {
+  return function(d) { return "Warning: "; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a553908461 = messageFormatterFn((function(  ) {
+  return function(d) { return "Week " + d.weekNum; }
+})(), Globalize("en").pluralGenerator({}));
+Globalize.a1870284551 = messageFormatterFn((function( plural, pluralFuncs ) {
+  return function(d) { return plural(d.optionCount, 0, pluralFuncs.en, { one: function() { return d.formattedOptionCount + " option";}, other: function() { return d.formattedOptionCount + " options";} }) + " available."; }
+})(messageFormat.plural, {"en": Globalize("en").pluralGenerator()}), Globalize("en").pluralGenerator({}));
+}));
